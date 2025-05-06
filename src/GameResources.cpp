@@ -20,7 +20,7 @@ sf::Texture* GameResources::nestTexture = new sf::Texture;
 
 void GameResources::initFont()
 {
-	if (!GameResources::font->loadFromFile("Fonts/PixellettersFull.ttf"))
+    if (!GameResources::font->openFromFile("Fonts/PixellettersFull.ttf"))
 	{
 		std::cout << "ERROR::GAMERESOURCES::Font could not load\n";
 	}

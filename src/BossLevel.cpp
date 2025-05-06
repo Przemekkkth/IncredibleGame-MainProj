@@ -41,8 +41,8 @@ void BossLevel::initBackground(sf::RectangleShape& background, sf::Texture& back
 	}
 
 	background.setSize(sf::Vector2f{
-		static_cast<float>(screenSize.width) * 1.5f,
-		static_cast<float>(screenSize.height) * 1.5f
+        static_cast<float>(screenSize.size.x) * 1.5f,
+        static_cast<float>(screenSize.size.y) * 1.5f
 		}
 	);
 
@@ -55,8 +55,8 @@ void BossLevel::initBossVisibilityPolygon(const std::vector<Edge>& edges)
 	m_visibilityPolygonPoints.clear();
 
 	sf::Vector2f bossCenter{
-		m_bossPosition.x + m_boss->m_sprite->getGlobalBounds().width / 2.0f,
-		m_bossPosition.y + m_boss->m_sprite->getGlobalBounds().height / 2.0f
+        m_bossPosition.x + m_boss->m_sprite->getGlobalBounds().size.x / 2.0f,
+        m_bossPosition.y + m_boss->m_sprite->getGlobalBounds().size.y / 2.0f
 	};
 
 	for (int edgei{ 0 }; edgei < edges.size(); ++edgei)
@@ -202,8 +202,8 @@ void BossLevel::bulletsBossCollision(std::vector<RangeWeapon::Bullet*>& bullets)
 void BossLevel::drawBossHitPolygon(sf::RenderTarget* target)
 {
 	sf::Vector2f bossCenter{
-		m_bossPosition.x + m_boss->m_sprite->getGlobalBounds().width / 2.0f,
-		m_bossPosition.y + m_boss->m_sprite->getGlobalBounds().height / 2.0f
+        m_bossPosition.x + m_boss->m_sprite->getGlobalBounds().size.x / 2.0f,
+        m_bossPosition.y + m_boss->m_sprite->getGlobalBounds().size.y / 2.0f
 	};
 
 	for (int iii{ 0 }; iii < m_visibilityPolygonPoints.size() - 1; ++iii)
@@ -218,7 +218,7 @@ void BossLevel::drawBossHitPolygon(sf::RenderTarget* target)
 		triangle[1].color = sf::Color{ 0,0,0,100 };
 		triangle[2].color = sf::Color{ 0,0,0,100 };
 
-		target->draw(triangle, 3, sf::TriangleFan);
+        target->draw(triangle, 3, sf::PrimitiveType::TriangleStrip);
 	}
 
 	sf::Vertex triangle[] = {
@@ -232,7 +232,7 @@ void BossLevel::drawBossHitPolygon(sf::RenderTarget* target)
 	triangle[1].color = sf::Color{ 0,0,0,100 };
 	triangle[2].color = sf::Color{ 0,0,0,100 };
 
-	target->draw(triangle, 3, sf::TriangleFan);
+    target->draw(triangle, 3, sf::PrimitiveType::TriangleStrip);
 }
 
 
@@ -245,12 +245,12 @@ void BossLevel::attackPlayer(Player& player, const std::vector<Edge>& edges)
 		m_attackCoooldown.restart();
 
 		sf::Vector2f bossCenter{
-			m_bossPosition.x + m_boss->m_sprite->getGlobalBounds().width / 2.0f,
-			m_bossPosition.y + m_boss->m_sprite->getGlobalBounds().height / 2.0f
+            m_bossPosition.x + m_boss->m_sprite->getGlobalBounds().size.x / 2.0f,
+            m_bossPosition.y + m_boss->m_sprite->getGlobalBounds().size.y / 2.0f
 		};
 		sf::Vector2f playerCenter{
-			player.getPosition().x + player.getGlobalBounds().width / 2.0f,
-			player.getPosition().y + player.getGlobalBounds().height / 2.0f
+            player.getPosition().x + player.getGlobalBounds().size.x / 2.0f,
+            player.getPosition().y + player.getGlobalBounds().size.y / 2.0f
 		};
 
 		bool doesHit{ false };
@@ -274,7 +274,7 @@ Enemy* BossLevel::spawnEnemies(Timer& spawnTimer, std::vector<Enemy*>& enemies)
 	{
 
 		enemies.push_back(new Enemy{ *GameResources::batTexture });
-		enemies.back()->setBasicFrame(sf::IntRect{ 2,4,139,69 });
+        enemies.back()->setBasicFrame(sf::IntRect{ sf::Vector2i{ 2,4}, sf::Vector2i{ 139,69} });
 		enemies.back()->setScale(Constants::batScale);
 		enemies.back()->giveEnemyType(Enemy::Type::flying);
 		enemies.back()->setMaxHP(Constants::batMaxHP);
@@ -296,18 +296,17 @@ Enemy* BossLevel::spawnEnemies(Timer& spawnTimer, std::vector<Enemy*>& enemies)
 BossLevel::Boss::Boss(sf::Vector2f m_bossPosition)
 {
 	bossType = Boss::Type::bigBat;
-	m_sprite = new sf::Sprite{};
+    m_sprite = new sf::Sprite{*GameResources::batTexture};
 	m_sprite->setPosition(m_bossPosition);
 
 	m_maxHP = 100;
-	m_currentHP = m_maxHP;
-	m_sprite->setTexture(*GameResources::batTexture);
-	m_sprite->setTextureRect(sf::IntRect{ 2,4,139,69 });
-	m_sprite->setScale(Constants::batScale.x * 3.0f, Constants::batScale.y * 3.0f);
+    m_currentHP = m_maxHP;
+    m_sprite->setTextureRect(sf::IntRect{ sf::Vector2i{ 2,4}, sf::Vector2i{139,69} });
+    m_sprite->setScale(sf::Vector2f(Constants::batScale.x * 3.0f, Constants::batScale.y * 3.0f));
 
 	sf::Vector2f unusedVelocity{};
 	m_animationComponent = new AnimationComponent{ *m_sprite, unusedVelocity };
-	m_animationComponent->setBacisFrame(sf::IntRect{ 2,4,139,69 });
+    m_animationComponent->setBacisFrame(sf::IntRect{ sf::Vector2i{2,4}, sf::Vector2i{139,69} });
 	m_animationTimer.restart();
 }
 
@@ -342,7 +341,7 @@ void BossLevel::Boss::bulletBossCollision(std::vector<RangeWeapon::Bullet*>& bul
 		if (abs(m_sprite->getPosition().x - bulletPosition.x) <= 300.0f &&
 			abs(m_sprite->getPosition().y - bulletPosition.y) <= 300.0f)
 		{
-			if (bullets[bulletIndex]->m_bullet.getGlobalBounds().intersects(m_sprite->getGlobalBounds()))
+            if (bullets[bulletIndex]->m_bullet.getGlobalBounds().findIntersection(m_sprite->getGlobalBounds()))
 			{
 				doesCollisionOccur = true;
 				delete bullets[bulletIndex];

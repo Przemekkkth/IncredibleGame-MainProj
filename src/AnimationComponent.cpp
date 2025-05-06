@@ -52,7 +52,7 @@ void AnimationComponent::updateAnimation()
 
 	if (m_animationState == Idle)
 	{
-		m_currentFrame.top = m_topidleBound;
+        m_currentFrame.position.y = m_topidleBound;
 		this->playAnimation(m_idleAnimationTimer, m_idleNextFrameDistance, m_idleMaxBound, 1000.0f);
 	}
 	else if (m_animationState == Jumping)
@@ -65,13 +65,13 @@ void AnimationComponent::updateAnimation()
 	}
 	else if (m_animationState == MovingRight)
 	{
-		m_currentFrame.top = m_topWalkBound;
+        m_currentFrame.position.y = m_topWalkBound;
 		this->playAnimation(m_runningAnimationTimer, m_walkNextFrameDistance, m_walkMaxBound, 70.0f);
 
 	}
 	else if (m_animationState == MovingLeft)
 	{
-		m_currentFrame.top = m_topWalkBound;
+        m_currentFrame.position.y = m_topWalkBound;
 		this->playAnimation(m_runningAnimationTimer, m_walkNextFrameDistance, m_walkMaxBound, 70.0f);
 	}
 	this->setSpriteRotation();
@@ -84,11 +84,11 @@ void AnimationComponent::playAnimation(sf::Clock& animationTimer,
 	if (animationTimer.getElapsedTime().asMilliseconds() >= delay)
 	{
 		m_animationSwitch = false;
-		m_currentFrame.left += nextFrameDistance;
+        m_currentFrame.position.x += nextFrameDistance;
 
-		if (m_currentFrame.left >= maxBound)
+        if (m_currentFrame.position.x >= maxBound)
 		{
-			m_currentFrame.left = m_basicFrame.left;
+            m_currentFrame.position.x = m_basicFrame.position.x;
 		}
 
 		animationTimer.restart();
@@ -109,12 +109,12 @@ void AnimationComponent::setSpriteRotation()
 	if (m_velocity.x > 0.0f)
 	{
 		m_sprite.setScale(m_spriteScale);
-		m_sprite.setOrigin(0.0f, 0.0f);
+        m_sprite.setOrigin(sf::Vector2f(0.0f, 0.0f));
 	}
 	else if (m_velocity.x < 0.0f)
 	{
-		m_sprite.setScale(-m_spriteScale.x, m_spriteScale.y);
-		m_sprite.setOrigin(m_sprite.getGlobalBounds().width / m_spriteScale.x, 0.0f);
+        m_sprite.setScale(sf::Vector2f(-m_spriteScale.x, m_spriteScale.y));
+        m_sprite.setOrigin(sf::Vector2f(m_sprite.getGlobalBounds().size.x / m_spriteScale.x, 0.0f));
 	}
 }
 

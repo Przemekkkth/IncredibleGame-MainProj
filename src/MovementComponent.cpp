@@ -30,7 +30,7 @@ void MovementComponent::updateMovement(const float& timePerFrame)
 void MovementComponent::moveSprite(const float& timePerFrame)
 {
 
-	m_sprite.move(m_velocity.x * timePerFrame,m_velocity.y * timePerFrame);
+    m_sprite.move(sf::Vector2f{m_velocity.x * timePerFrame,m_velocity.y * timePerFrame});
 }
 
 void MovementComponent::setDirectionTowardsPoint(const float& timePerFrame,const sf::Vector2f& point)

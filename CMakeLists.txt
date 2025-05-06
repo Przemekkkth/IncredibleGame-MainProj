@@ -57,6 +57,7 @@ add_executable(main
 
     src/Tile.h src/Tile.cpp
     src/TileMap.h src/TileMap.cpp
+    src/Timer.h src/Timer.cpp
 
     src/ValleyLevel.h src/ValleyLevel.cpp
 

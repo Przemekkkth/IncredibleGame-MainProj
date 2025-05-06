@@ -54,14 +54,14 @@ void GameState::initPlayer()
 {
 	m_player = new Player{*GameResources::playerTexture};
 	m_player->setScale(sf::Vector2f{Constants::playerScale});
-	m_player->setJumpingAndFallingFrame(sf::IntRect{ 5,136,50,58 }, sf::IntRect{ 5,200,50,58 });
+    m_player->setJumpingAndFallingFrame(sf::IntRect{ sf::Vector2i{5,136},sf::Vector2i{50,58} }, sf::IntRect{ sf::Vector2i{5,200}, sf::Vector2i{50,58} });
 	m_player->setAnimationStateBounds(65.0f, 210.0f, 72.0f, 65.0f, 125.0f, 5.0f);
 	m_player->respawn(m_currentLevel->playerSpawnPosition);
 	m_creatures.push_back(m_player);
-	
 
-	m_playerCamera.setSize(Constants::WindowWidth, Constants::WindowHeigth);
-	m_playerCamera.setCenter(Constants::WindowWidth / 2.0f, Constants::WindowHeigth / 2.0f);
+
+    m_playerCamera.setSize(sf::Vector2f{float(Constants::WindowWidth), float(Constants::WindowHeigth)});
+    m_playerCamera.setCenter(sf::Vector2f{Constants::WindowWidth / 2.0f, Constants::WindowHeigth / 2.0f});
 
 }
 
@@ -183,7 +183,7 @@ void GameState::update(sf::RenderWindow* window)
 
 void GameState::updateInput()
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) && this->getKeyTime() == true)
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Escape) && this->getKeyTime() == true)
 	{
 
 		if (m_isPaused == true)
@@ -227,7 +227,7 @@ void GameState::isLevelCompleted()
 
 	if (m_isLevelCompleted == true)
 	{
-		if (m_nextLevelDoors.getGlobalBounds().intersects(m_player->getGlobalBounds()))
+        if (m_nextLevelDoors.getGlobalBounds().findIntersection(m_player->getGlobalBounds()))
 		{
 
 			if (m_popUpText->isTextShown() == false)
@@ -235,7 +235,7 @@ void GameState::isLevelCompleted()
 				m_popUpText->showText("Press E to Go", 1900.0f, false);
 			}
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::E))
 			{
 				if (m_currentLevel->levelType != Level::Type::BossLevel)
 				{
@@ -544,31 +544,31 @@ void GameState::moveBackgroundProportionallyToMap()
 
 	if (m_isCameraOnLeftBound == false && m_isCameraOnRightBound == false)
 	{
-		m_background.setPosition(
+        m_background.setPosition(sf::Vector2f(
 			(-1.0f * (m_background.getSize().x / 4.0f)) + Map_Background_DistanceProportion.x,
 			(-1.0f * (m_background.getSize().y / 2.0f)) + Map_Background_DistanceProportion.y
-		);
+            ));
 	}
 	else if (m_isCameraOnLeftBound == true && m_isCameraOnRightBound == false)
 	{
-		m_background.setPosition(
+        m_background.setPosition(sf::Vector2f(
 			(-1.0f * (m_background.getSize().x / 4.0f)) + Map_Background_DistanceProportion.x,
 			m_background.getPosition().y
-		);
+            ));
 	}
 	else if (m_isCameraOnLeftBound == false && m_isCameraOnRightBound == true)
 	{
-		m_background.setPosition(
+        m_background.setPosition(sf::Vector2f(
 			m_background.getPosition().x,
-			(-1.0f * (m_background.getSize().y / 2.0f)) + Map_Background_DistanceProportion.y
+            (-1.0f * (m_background.getSize().y / 2.0f)) + Map_Background_DistanceProportion.y)
 		);
 	}
 	else if (m_isCameraOnLeftBound == true && m_isCameraOnRightBound == true)
 	{
-		m_background.setPosition(
+        m_background.setPosition(sf::Vector2f(
 			m_background.getPosition().x,
 			m_background.getPosition().y
-		);
+            ));
 	}
 }
 
@@ -802,19 +802,19 @@ void GameState::CheckXaxis(float leftCameraBound, float rightCameraBound)
 {
 	if (leftCameraBound < 0.0f)
 	{
-		m_playerCamera.setCenter(
+        m_playerCamera.setCenter(sf::Vector2f(
 			m_playerCamera.getSize().x / 2.0f,
 			m_playerCamera.getCenter().y
-		);
+            ));
 
 		m_isCameraOnRightBound = true;
 	}
 	else if (rightCameraBound > m_tileMap->size(0) * Constants::gridSizeF)
 	{
-		m_playerCamera.setCenter(
+        m_playerCamera.setCenter(sf::Vector2f(
 			m_tileMap->size(0) * Constants::gridSizeF - m_playerCamera.getSize().x / 2.0f,
 			m_playerCamera.getCenter().y
-		);
+            ));
 
 		m_isCameraOnRightBound = true;
 	}
@@ -824,19 +824,19 @@ void GameState::CheckYaxis(float upCameraBound, float downCameraBound)
 {
 	if (upCameraBound < 0.0f)
 	{
-		m_playerCamera.setCenter(
+        m_playerCamera.setCenter(sf::Vector2f(
 			m_playerCamera.getCenter().x,
 			m_playerCamera.getSize().y / 2.0f
-		);
+            ));
 
 		m_isCameraOnLeftBound = true;
 	}
 	else if (downCameraBound > m_tileMap->size() * Constants::gridSizeF)
 	{
-		m_playerCamera.setCenter(
+        m_playerCamera.setCenter(sf::Vector2f(
 			m_playerCamera.getCenter().x,
 			m_tileMap->size() * Constants::gridSizeF - m_playerCamera.getSize().y / 2.0f
-		);
+            ));
 
 		m_isCameraOnLeftBound = true;
 	}

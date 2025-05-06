@@ -35,8 +35,8 @@ void ValleyLevel::initBackground(sf::RectangleShape& background, sf::Texture& ba
 	}
 
 	background.setSize(sf::Vector2f{
-		static_cast<float>(screenSize.width) * 1.5f,
-		static_cast<float>(screenSize.height) * 1.5f
+        static_cast<float>(screenSize.size.x) * 1.5f,
+        static_cast<float>(screenSize.size.y) * 1.5f
 		}
 	);
 
@@ -87,7 +87,7 @@ Enemy* ValleyLevel::spawnEnemies(Timer& spawnTimer, std::vector<Enemy*>& enemies
 		{
 
 			enemies.push_back(new Enemy{ *GameResources::batTexture });
-			enemies.back()->setBasicFrame(sf::IntRect{ 2,4,139,69 });
+            enemies.back()->setBasicFrame(sf::IntRect{ sf::Vector2i(2,4), sf::Vector2i(139,69) });
 			enemies.back()->setScale(Constants::batScale);
 			enemies.back()->giveEnemyType(Enemy::Type::flying);
 			enemies.back()->setMaxHP(Constants::batMaxHP);
@@ -97,8 +97,8 @@ Enemy* ValleyLevel::spawnEnemies(Timer& spawnTimer, std::vector<Enemy*>& enemies
 		else if (spawnRandomEnemy >= 25 && spawnRandomEnemy < 50)
 		{
 			enemies.push_back(new Enemy{ *GameResources::ninjaTexture });
-			enemies.back()->setBasicFrame(sf::IntRect{ 2,2,45,43 });
-			enemies.back()->setJumpingAndFallingFrame(sf::IntRect{ 1,46,45,43 }, sf::IntRect{ 1,99,45,43 });
+            enemies.back()->setBasicFrame(sf::IntRect{ sf::Vector2i(2,2), sf::Vector2i(45,43) });
+            enemies.back()->setJumpingAndFallingFrame(sf::IntRect{ sf::Vector2i(1,46), sf::Vector2i(45,43) }, sf::IntRect{ sf::Vector2i(1,99), sf::Vector2i(45,43) });
 			enemies.back()->setAnimationStateBounds(50.0f, 330.0f, 1.0f, 50.0f, 20.0f, 154.0f);
 			enemies.back()->setScale(Constants::ninjaScale);
 			enemies.back()->setMaxHP(Constants::ninjaMaxHP);
@@ -108,7 +108,7 @@ Enemy* ValleyLevel::spawnEnemies(Timer& spawnTimer, std::vector<Enemy*>& enemies
 		else if (spawnRandomEnemy >= 50)
 		{
 			enemies.push_back(new Enemy{ *GameResources::birdTexture });
-			enemies.back()->setBasicFrame(sf::IntRect{ 1,1,65,63 });
+            enemies.back()->setBasicFrame(sf::IntRect{ sf::Vector2i(1,1), sf::Vector2i(65,63) });
 			enemies.back()->setScale(Constants::birdScale);
 			enemies.back()->setMaxHP(Constants::birdMaxHP);
 			enemies.back()->giveEnemyType(Enemy::Type::flying);

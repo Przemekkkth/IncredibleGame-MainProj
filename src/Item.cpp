@@ -3,8 +3,7 @@
 
 void Item::initSprite(sf::Texture* texture)
 {
-	m_item = new sf::Sprite;
-	m_item->setTexture(*texture);
+    m_item = new sf::Sprite(*texture);
 }
 
 void Item::initVariables()
@@ -47,7 +46,7 @@ void Item::updateItemPosition(const sf::Vector2i& mousePosition, const sf::Vecto
 
 void Item::inHandRotation(const sf::Vector2i& mousePosition)
 {
-	m_item->setRotation(Geometry::getAngleRelativelyToGround(m_item->getPosition(), mousePosition));
+    m_item->setRotation(sf::degrees(Geometry::getAngleRelativelyToGround(m_item->getPosition(), mousePosition)));
 }
 
 void Item::setItemPosition(sf::Vector2f position)
@@ -58,21 +57,21 @@ void Item::setItemPosition(sf::Vector2f position)
 
 void Item::dragItemDown()
 {
-	m_item->move(0.0f, m_speed * deltaTime::timePerFrame);
+    m_item->move(sf::Vector2f(0.0f, m_speed * deltaTime::timePerFrame));
 }
 
 void Item::itemGroundCollision(Tile& collisionTile)
 {
 	sf::FloatRect tileBounds{ collisionTile.m_tile.getGlobalBounds() };
 	sf::FloatRect itemNextBounds{ m_item->getGlobalBounds() };
-	itemNextBounds.top += m_speed * deltaTime::timePerFrame;
+    itemNextBounds.position.y += m_speed * deltaTime::timePerFrame;
 
-	if (itemNextBounds.intersects(tileBounds) &&
+    if (itemNextBounds.findIntersection(tileBounds) &&
 		m_isOnGround == false &&
 		collisionTile.m_tileType == Tile::Type::Grass)
 	{
 
-		m_item->setPosition(m_item->getPosition().x, tileBounds.top - m_item->getGlobalBounds().height);
+        m_item->setPosition(sf::Vector2f(m_item->getPosition().x, tileBounds.position.y - m_item->getGlobalBounds().size.y));
 		m_isOnGround = true;
 	}
 }
@@ -109,5 +108,5 @@ void Item::setItemType(Type itemType)
 
 void Item::setScale(float scaleX, float scaleY)
 {
-	m_item->setScale(scaleX, scaleY);
+    m_item->setScale(sf::Vector2f(scaleX, scaleY));
 }

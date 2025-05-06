@@ -12,11 +12,9 @@ void Player::initHearts()
 	for (int iii{ 0 }; iii < m_maxHP/10; ++iii)
 	{
 
-		m_HPhearts.push_back(new sf::Sprite);
-		m_HPhearts.back()->setScale(0.25f, 0.25f);
-		m_HPhearts.back()->setPosition(50.0f * iii, 0.0f);
-		m_HPhearts.back()->setTexture(*GameResources::heartTexture);
-		
+        m_HPhearts.push_back(new sf::Sprite(*GameResources::heartTexture));
+        m_HPhearts.back()->setScale(sf::Vector2f(0.25f, 0.25f));
+        m_HPhearts.back()->setPosition(sf::Vector2f(50.0f * iii, 0.0f));
 	}
 	
 
@@ -92,7 +90,7 @@ void Player::playerSpikeCollision(Tile& collisionTile)
 
 void Player::playerEnemyCollision(const sf::FloatRect& enemyBounds, int enemyDamage)
 {
-	if (m_sprite->getGlobalBounds().intersects(enemyBounds) &&
+    if (m_sprite->getGlobalBounds().findIntersection(enemyBounds) &&
 		m_afterDamageTimer.getElapsedTime() > m_afterDamageTimer.getTimeMAX())
 	{
 		this->getDamage(enemyDamage);

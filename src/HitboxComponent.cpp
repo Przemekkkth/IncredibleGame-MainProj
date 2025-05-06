@@ -5,8 +5,8 @@ HitboxComponent::HitboxComponent(sf::Sprite& sprite, sf::Vector2f& velocity, boo
 	: m_sprite{sprite}, m_velocity{velocity}, m_isGrounded{isGrounded}
 {
 	m_hitbox.setSize(sf::Vector2f{
-		m_sprite.getGlobalBounds().width,
-		m_sprite.getGlobalBounds().height}
+        m_sprite.getGlobalBounds().size.x,
+        m_sprite.getGlobalBounds().size.y}
 	);
 
 	m_hitbox.setFillColor(sf::Color::Transparent);
@@ -24,39 +24,39 @@ void HitboxComponent::update()
 
 void HitboxComponent::updateHitboxPosition()
 {
-	m_hitbox.setPosition(m_sprite.getPosition().x, m_sprite.getPosition().y);
+    m_hitbox.setPosition(sf::Vector2f(m_sprite.getPosition().x, m_sprite.getPosition().y));
 }
 
 void HitboxComponent::checkSceenBoundsCollision()
 {
 	sf::FloatRect hitboxNextPosition{ m_hitbox.getGlobalBounds() };
 
-	hitboxNextPosition.left += m_velocity.x * deltaTime::timePerFrame;
-	hitboxNextPosition.top += m_velocity.y * deltaTime::timePerFrame;
+    hitboxNextPosition.position.x += m_velocity.x * deltaTime::timePerFrame;
+    hitboxNextPosition.position.y += m_velocity.y * deltaTime::timePerFrame;
 
-	if (hitboxNextPosition.left < 0.0f)
+    if (hitboxNextPosition.position.x < 0.0f)
 	{
-		m_sprite.setPosition(3.0f, m_sprite.getPosition().y);
+        m_sprite.setPosition(sf::Vector2f(3.0f, m_sprite.getPosition().y));
 		m_velocity.x = 0.0f;
 	}
-	else if (hitboxNextPosition.left + m_hitbox.getGlobalBounds().width >
+    else if (hitboxNextPosition.position.x + m_hitbox.getGlobalBounds().size.x >
 		static_cast<float>(Constants::WindowWidth))
 	{
-		m_sprite.setPosition(
-			Constants::WindowWidth - m_hitbox.getGlobalBounds().width,
-			m_sprite.getPosition().y
+        m_sprite.setPosition(sf::Vector2f{
+            Constants::WindowWidth - m_hitbox.getGlobalBounds().size.x,
+            m_sprite.getPosition().y}
 		);
 		m_velocity.x = 0.0f;
 	}
 
 
 
-	else if (hitboxNextPosition.top + m_hitbox.getGlobalBounds().height > 
+    else if (hitboxNextPosition.position.y + m_hitbox.getGlobalBounds().size.y >
 		static_cast<float>(Constants::WindowHeigth))
 	{
-		m_sprite.setPosition(
+        m_sprite.setPosition(sf::Vector2f{
 			m_sprite.getPosition().x,
-			Constants::WindowHeigth - m_hitbox.getGlobalBounds().height
+            Constants::WindowHeigth - m_hitbox.getGlobalBounds().size.y}
 		);
 		m_velocity.y = 0.0f;
 		m_isGrounded = true;
@@ -73,8 +73,8 @@ void HitboxComponent::drawHitbx(sf::RenderTarget* target)
 void HitboxComponent::scaleHitboxSize(sf::Vector2f scale)
 {
 	m_hitbox.setSize(sf::Vector2f{
-		m_sprite.getGlobalBounds().width,
-		m_sprite.getGlobalBounds().height
+        m_sprite.getGlobalBounds().size.x,
+        m_sprite.getGlobalBounds().size.y
 		}
 	);
 	
@@ -118,13 +118,10 @@ std::pair<int, float> HitboxComponent::calculateNearHitsIndex(Tile& collisionTil
 
 
 	sf::FloatRect expandedBounds{ collisionTile.m_tile.getGlobalBounds() };
-	expandedBounds.top -= m_hitbox.getSize().y / 2.0f;
-	expandedBounds.left -= m_hitbox.getSize().x / 2.0f;
-	expandedBounds.width += m_hitbox.getGlobalBounds().width;
-	expandedBounds.height += m_hitbox.getGlobalBounds().height;
-
-	
-
+    expandedBounds.position.y -= m_hitbox.getSize().y / 2.0f;
+    expandedBounds.position.x -= m_hitbox.getSize().x / 2.0f;
+    expandedBounds.size.x += m_hitbox.getGlobalBounds().size.x;
+    expandedBounds.size.y += m_hitbox.getGlobalBounds().size.y;
 
 	sf::Vector2f originPoint{
 		m_hitbox.getPosition().x + m_hitbox.getSize().x / 2.0f,
@@ -132,13 +129,13 @@ std::pair<int, float> HitboxComponent::calculateNearHitsIndex(Tile& collisionTil
 	};
 
 	sf::Vector2f t_near{
-		(expandedBounds.left - originPoint.x) / (m_velocity.x * deltaTime::timePerFrame),
-		(expandedBounds.top - originPoint.y) / (m_velocity.y * deltaTime::timePerFrame)
+        (expandedBounds.position.x - originPoint.x) / (m_velocity.x * deltaTime::timePerFrame),
+        (expandedBounds.position.y - originPoint.y) / (m_velocity.y * deltaTime::timePerFrame)
 	};
 
 	sf::Vector2f t_far{
-		(expandedBounds.left + expandedBounds.width - originPoint.x) / (m_velocity.x * deltaTime::timePerFrame),
-		(expandedBounds.top + expandedBounds.height - originPoint.y) / (m_velocity.y * deltaTime::timePerFrame)
+        (expandedBounds.position.x + expandedBounds.size.x - originPoint.x) / (m_velocity.x * deltaTime::timePerFrame),
+        (expandedBounds.position.y + expandedBounds.size.y - originPoint.y) / (m_velocity.y * deltaTime::timePerFrame)
 	};
 
 	if (std::isnan(t_near.y) || std::isnan(t_near.x) ||
@@ -171,10 +168,10 @@ void HitboxComponent::walkingTileCollision(Tile& collisionTile)
 {
 
 	sf::FloatRect expandedTileBounds{ collisionTile.m_tile.getGlobalBounds() };
-	expandedTileBounds.top -= m_hitbox.getSize().y / 2.0f;
-	expandedTileBounds.left -= m_hitbox.getSize().x / 2.0f;
-	expandedTileBounds.width += m_hitbox.getGlobalBounds().width;
-	expandedTileBounds.height += m_hitbox.getGlobalBounds().height;
+    expandedTileBounds.position.y -= m_hitbox.getSize().y / 2.0f;
+    expandedTileBounds.position.x -= m_hitbox.getSize().x / 2.0f;
+    expandedTileBounds.size.x += m_hitbox.getGlobalBounds().size.x;
+    expandedTileBounds.size.y += m_hitbox.getGlobalBounds().size.y;
 
 	sf::Vector2f originPoint{
 		m_hitbox.getPosition().x + m_hitbox.getSize().x / 2.0f,
@@ -182,13 +179,13 @@ void HitboxComponent::walkingTileCollision(Tile& collisionTile)
 	};
 
 	sf::Vector2f t_near{
-		(expandedTileBounds.left - originPoint.x) / (m_velocity.x * deltaTime::timePerFrame),
-		(expandedTileBounds.top - originPoint.y) / (m_velocity.y * deltaTime::timePerFrame)
+        (expandedTileBounds.position.x - originPoint.x) / (m_velocity.x * deltaTime::timePerFrame),
+        (expandedTileBounds.position.y - originPoint.y) / (m_velocity.y * deltaTime::timePerFrame)
 	};
 
 	sf::Vector2f t_far{
-		(expandedTileBounds.left + expandedTileBounds.width - originPoint.x) / (m_velocity.x * deltaTime::timePerFrame),
-		(expandedTileBounds.top + expandedTileBounds.height - originPoint.y) / (m_velocity.y * deltaTime::timePerFrame)
+        (expandedTileBounds.position.x + expandedTileBounds.size.x - originPoint.x) / (m_velocity.x * deltaTime::timePerFrame),
+        (expandedTileBounds.position.y + expandedTileBounds.size.y - originPoint.y) / (m_velocity.y * deltaTime::timePerFrame)
 	};
 
 	if (std::isnan(t_near.y) || std::isnan(t_near.x) || std::isnan(t_far.x) || std::isnan(t_far.y))
@@ -257,7 +254,7 @@ bool HitboxComponent::creatureSpikeCollision(Tile& collisionTile)
 {
 	if (collisionTile.m_tileType == Tile::Type::Spike)
 	{
-		if (m_hitbox.getGlobalBounds().intersects(collisionTile.m_tile.getGlobalBounds()))
+        if (m_hitbox.getGlobalBounds().findIntersection(collisionTile.m_tile.getGlobalBounds()))
 		{
 			return true;
 		}

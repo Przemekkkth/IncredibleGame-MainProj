@@ -22,9 +22,8 @@ void Creature::initPhysicsComponent()
 
 void Creature::initSprite(sf::Texture& texture)
 {
-	m_sprite = new sf::Sprite{};
-	m_sprite->setTexture(texture);
-	m_sprite->setTextureRect(sf::IntRect{ 5,5,50,58 });
+    m_sprite = new sf::Sprite(texture);
+    m_sprite->setTextureRect(sf::IntRect{ sf::Vector2i{5,5}, sf::Vector2i{50,58} });
 }
 
 void Creature::initHitboxComponent()

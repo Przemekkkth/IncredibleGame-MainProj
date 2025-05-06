@@ -86,8 +86,8 @@ void CaveLevel::initBackground(sf::RectangleShape& background, sf::Texture& back
 	}
 
 	background.setSize(sf::Vector2f{
-		static_cast<float>(screenSize.width) * 1.5f,
-		static_cast<float>(screenSize.height) * 1.5f
+        static_cast<float>(screenSize.size.x) * 1.5f,
+        static_cast<float>(screenSize.size.y) * 1.5f
 		}
 	);
 
@@ -112,7 +112,7 @@ void CaveLevel::bombsBulletsCollision(std::vector<RangeWeapon::Bullet*>& bullets
 			if (abs(m_nests[iii]->m_sprite->getPosition().x - bulletPosition.x) <= 300.0f &&
 				abs(m_nests[iii]->m_sprite->getPosition().y - bulletPosition.y) <= 300.0f)
 			{
-				if (bullets[bulletIndex]->m_bullet.getGlobalBounds().intersects(m_nests[iii]->m_sprite->getGlobalBounds()))
+                if (bullets[bulletIndex]->m_bullet.getGlobalBounds().findIntersection(m_nests[iii]->m_sprite->getGlobalBounds()))
 				{
 					doesCollisionOccur = true;
 					delete bullets[bulletIndex];
@@ -248,7 +248,7 @@ void CaveLevel::render(sf::RenderTarget* target, const sf::Vector2f& lightSource
 		sf::Vertex{sf::Vector2f{std::get<1>(m_visibilityPolygonPoints[iii + 1]), std::get<2>(m_visibilityPolygonPoints[iii + 1]) }}
 		};
 		
-		target->draw(triangle, 3, sf::TriangleFan);
+        target->draw(triangle, 3, sf::PrimitiveType::TriangleStrip);
 	}
 
 	sf::Vertex triangle[] = {
@@ -258,7 +258,7 @@ void CaveLevel::render(sf::RenderTarget* target, const sf::Vector2f& lightSource
 		sf::Vertex{sf::Vector2f{ std::get<1>(m_visibilityPolygonPoints[0]),std::get<2>(m_visibilityPolygonPoints[0])}}
 	};
 	
-	target->draw(triangle, 3, sf::TriangleFan);
+    target->draw(triangle, 3, sf::PrimitiveType::TriangleStrip);
 }
 
 void CaveLevel::renderNests(sf::RenderTarget* target, bool addBlendMode)
@@ -303,7 +303,7 @@ Enemy* CaveLevel::spawnEnemies(Timer& spawnTimer, std::vector<Enemy*>& enemies)
 		for (int iii{ 0 }; iii < m_nests.size(); ++iii)
 		{
 			enemies.push_back(new Enemy{ *GameResources::birdTexture });
-			enemies.back()->setBasicFrame(sf::IntRect{ 1,1,65,63 });
+            enemies.back()->setBasicFrame(sf::IntRect{ sf::Vector2i(1,1), sf::Vector2i(65,63) });
 			enemies.back()->setScale(Constants::birdScale);
 			enemies.back()->setMaxHP(Constants::birdMaxHP);
 			enemies.back()->giveEnemyType(Enemy::Type::flying);

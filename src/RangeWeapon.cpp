@@ -38,7 +38,7 @@ void RangeWeapon::updateBullets()
 
 void RangeWeapon::shootBullet()
 {
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && m_cooldown.getElapsedTime() > m_cooldown.getTimeMAX())
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && m_cooldown.getElapsedTime() > m_cooldown.getTimeMAX())
 	{
 		m_bullets.push_back(new Bullet{});
 
@@ -64,7 +64,7 @@ void RangeWeapon::renderBullets(sf::RenderTarget* target)
 
 bool RangeWeapon::bulletTileMapCollision(Tile& collisionTile, int bulletIndex)
 {
-	if (collisionTile.m_tile.getGlobalBounds().intersects(m_bullets[bulletIndex]->m_bullet.getGlobalBounds()) &&
+    if (collisionTile.m_tile.getGlobalBounds().findIntersection(m_bullets[bulletIndex]->m_bullet.getGlobalBounds()) &&
 		collisionTile.isObsticle == true)
 	{
 
@@ -99,10 +99,10 @@ void RangeWeapon::giveBulletPosition()
 {
 	sf::Vector2f bulletDir{ m_bullets.back()->m_direction };
 
-	m_bullets.back()->m_bullet.setPosition(
+    m_bullets.back()->m_bullet.setPosition(sf::Vector2f(
 		m_item->getPosition().x + bulletDir.x*40.0f,
 		m_item->getPosition().y + bulletDir.y*40.0f
-	);
+        ));
 }
 
 const int& RangeWeapon::firedBullets() const
@@ -158,10 +158,10 @@ void RangeWeapon::Bullet::updatePosition()
 {
 	this->dragDown();
 
-	m_bullet.move(
+    m_bullet.move(sf::Vector2f(
 		m_velocity.x * deltaTime::timePerFrame,
 		m_velocity.y * deltaTime::timePerFrame
-	);
+        ));
 	//Debug::showVelocity(m_velocity.x, m_velocity.y);
 }
 

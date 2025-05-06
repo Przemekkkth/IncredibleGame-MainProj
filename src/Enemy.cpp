@@ -20,7 +20,7 @@ void Enemy::setRandomPosition()
 	int randomXpos(getRandomInt(2, Constants::ValleyMapSizeX-2));
 	int randomYpos(getRandomInt(2, Constants::ValleyMapSizeY-2));
 
-	m_sprite->setPosition(randomXpos * Constants::gridSizeF, randomYpos * Constants::gridSizeF);
+    m_sprite->setPosition(sf::Vector2f(randomXpos * Constants::gridSizeF, randomYpos * Constants::gridSizeF));
 }
 
 //Contructors / Descructors
@@ -178,9 +178,9 @@ void Enemy::updateHitboxComponent()
 
 void Enemy::updateHPbar()
 {
-	m_HPbar.setPosition(m_sprite->getPosition().x + 25.0f, m_sprite->getPosition().y - 15.0f);
+    m_HPbar.setPosition(sf::Vector2f(m_sprite->getPosition().x + 25.0f, m_sprite->getPosition().y - 15.0f));
 
-	m_HPbarBackground.setPosition(m_HPbar.getPosition().x, m_HPbar.getPosition().y);
+    m_HPbarBackground.setPosition(sf::Vector2f(m_HPbar.getPosition().x, m_HPbar.getPosition().y));
 }
 
 void Enemy::updateCollision()
@@ -190,7 +190,7 @@ void Enemy::updateCollision()
 
 bool Enemy::bulletCollision(sf::FloatRect bulletBounds)
 {
-	if (m_sprite->getGlobalBounds().intersects(bulletBounds))
+    if (m_sprite->getGlobalBounds().findIntersection(bulletBounds))
 	{
 		this->getDamage(Constants::rifleDamage);
 		return true;

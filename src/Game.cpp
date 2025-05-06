@@ -4,7 +4,7 @@
 //Initialize private Functions
 void Game::initWindow()
 {
-	m_window = new sf::RenderWindow{ sf::VideoMode{Constants::WindowWidth, Constants::WindowHeigth} ,
+    m_window = new sf::RenderWindow{ sf::VideoMode{sf::Vector2u{Constants::WindowWidth, Constants::WindowHeigth}} ,
 		"Incredible Game", sf::Style::Close | sf::Style::Titlebar };
 
 
@@ -75,33 +75,33 @@ void Game::update()
 
 void Game::updateEvents()
 {
-	while (m_window->pollEvent(m_event))
-	{
-		if (m_event.type == sf::Event::Closed)
-			m_window->close();
+    // while (m_window->pollEvent(m_event))
+    // {
+    // 	if (m_event.type == sf::Event::Closed)
+    // 		m_window->close();
 
-		this->updateButtonRealese();
-	}
+    // 	this->updateButtonRealese();
+    // }
 }
 
 void Game::updateButtonRealese()
 {
-	if (m_event.type == sf::Event::KeyReleased &&
-		m_event.key.code == sf::Keyboard::Escape)
-	{
-		RealeseDetection::Escape = true;
-	}
-	else if (m_event.type == sf::Event::MouseButtonReleased &&
-		m_event.mouseButton.button == sf::Mouse::Left)
-	{
-		RealeseDetection::mouseLeftButton = true;
-	}
-	else if (m_event.type == sf::Event::KeyReleased &&
-		m_event.key.code == sf::Keyboard::W)
-	{
+    // if (m_event.type == sf::Event::KeyReleased &&
+ //        m_event.key.code == sf::Keyboard::Scancode::Escape)
+    // {
+    // 	RealeseDetection::Escape = true;
+    // }
+    // else if (m_event.type == sf::Event::MouseButtonReleased &&
+ //               m_event.mouseButton.button == sf::Mouse::Button::Left)
+    // {
+    // 	RealeseDetection::mouseLeftButton = true;
+    // }
+    // else if (m_event.type == sf::Event::KeyReleased &&
+ //               m_event.key.code == sf::Keyboard::Scancode::W)
+    // {
 
-		RealeseDetection::W = true;
-	}
+    // 	RealeseDetection::W = true;
+    // }
 }
 
 void Game::showFPS()

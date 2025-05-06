@@ -63,14 +63,14 @@ void PhysicsComponent::updateVelocity(const float& timePerFrame,
 {
 	direction.x = 0.0f;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::A))
 	{
 		direction.x = -1.0f;
 
 		if (velocity.x > -m_maxVelocity.x)
 			velocity.x += m_acceleration * direction.x * timePerFrame;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::D))
 	{
 		direction.x = 1.0f;
 
@@ -78,7 +78,7 @@ void PhysicsComponent::updateVelocity(const float& timePerFrame,
 			velocity.x += m_acceleration * direction.x * timePerFrame;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && isGrounded == true)
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W) && isGrounded == true)
 	{
 		
 		m_isJumping = true;

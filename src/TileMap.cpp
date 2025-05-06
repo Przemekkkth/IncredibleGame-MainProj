@@ -203,8 +203,8 @@ void TileMap::convertTileMapToEdgeMap()
 		{
 			for (int j{ 0 }; j < 4; ++j)
 			{
-				m_tileMap[kkk + tileMapBounds.top][iii + tileMapBounds.left]->edgeExist[j] = false;
-				m_tileMap[kkk + tileMapBounds.top][iii + tileMapBounds.left]->edgeID[j] = 0;
+                m_tileMap[kkk + tileMapBounds.position.y][iii + tileMapBounds.position.x]->edgeExist[j] = false;
+                m_tileMap[kkk + tileMapBounds.position.y][iii + tileMapBounds.position.x]->edgeID[j] = 0;
 			}
 		}
 	}
@@ -215,11 +215,11 @@ void TileMap::convertTileMapToEdgeMap()
 		
 		for (int kkk{ 1 }; kkk < m_mapVisualization.size() - 1; ++kkk)
 		{
-			sf::Vector2i index = { kkk + (int)tileMapBounds.top,iii + (int)tileMapBounds.left };
-			sf::Vector2f northenNeighbour = { kkk - 1 + tileMapBounds.top, iii + tileMapBounds.left };
-			sf::Vector2f southenNeighbour = { kkk + 1 + tileMapBounds.top, iii + tileMapBounds.left };
-			sf::Vector2f westernNeighbour = { kkk + tileMapBounds.top, iii + tileMapBounds.left - 1 };
-			sf::Vector2f eastenNeighbour = { kkk + tileMapBounds.top, iii + tileMapBounds.left + 1 };
+            sf::Vector2i index = { kkk + (int)tileMapBounds.position.y,iii + (int)tileMapBounds.position.x };
+            sf::Vector2f northenNeighbour = { kkk - 1 + tileMapBounds.position.y, iii + tileMapBounds.position.x };
+            sf::Vector2f southenNeighbour = { kkk + 1 + tileMapBounds.position.y, iii + tileMapBounds.position.x };
+            sf::Vector2f westernNeighbour = { kkk + tileMapBounds.position.y, iii + tileMapBounds.position.x - 1 };
+            sf::Vector2f eastenNeighbour = { kkk + tileMapBounds.position.y, iii + tileMapBounds.position.x + 1 };
 
 			
 
@@ -236,8 +236,8 @@ void TileMap::convertTileMapToEdgeMap()
 					else
 					{
 						Edge edge{};
-						edge.startPoint.x = (tileMapBounds.left + iii) * Constants::gridSizeF;
-						edge.startPoint.y = (tileMapBounds.top + kkk) * Constants::gridSizeF;
+                        edge.startPoint.x = (tileMapBounds.position.x + iii) * Constants::gridSizeF;
+                        edge.startPoint.y = (tileMapBounds.position.y + kkk) * Constants::gridSizeF;
 
 						edge.endPoint.x = edge.startPoint.x;
 						edge.endPoint.y = edge.startPoint.y + Constants::gridSizeF;
@@ -261,8 +261,8 @@ void TileMap::convertTileMapToEdgeMap()
 					else
 					{
 						Edge edge{};
-						edge.startPoint.x = (tileMapBounds.left + iii + 1) * Constants::gridSizeF;
-						edge.startPoint.y = (tileMapBounds.top + kkk) * Constants::gridSizeF;
+                        edge.startPoint.x = (tileMapBounds.position.x + iii + 1) * Constants::gridSizeF;
+                        edge.startPoint.y = (tileMapBounds.position.y + kkk) * Constants::gridSizeF;
 
 						edge.endPoint.x = edge.startPoint.x;
 						edge.endPoint.y = edge.startPoint.y + Constants::gridSizeF;
@@ -289,8 +289,8 @@ void TileMap::convertTileMapToEdgeMap()
 					{
 
 						Edge edge{};
-						edge.startPoint.x = (tileMapBounds.left + iii) * Constants::gridSizeF;
-						edge.startPoint.y = (tileMapBounds.top + kkk) * Constants::gridSizeF;
+                        edge.startPoint.x = (tileMapBounds.position.x + iii) * Constants::gridSizeF;
+                        edge.startPoint.y = (tileMapBounds.position.y + kkk) * Constants::gridSizeF;
 
 						edge.endPoint.x = edge.startPoint.x + Constants::gridSizeF;
 						edge.endPoint.y = edge.startPoint.y;
@@ -316,8 +316,8 @@ void TileMap::convertTileMapToEdgeMap()
 					else
 					{
 						Edge edge{};
-						edge.startPoint.x = (tileMapBounds.left + iii) * Constants::gridSizeF;
-						edge.startPoint.y = (tileMapBounds.top + kkk + 1) * Constants::gridSizeF;
+                        edge.startPoint.x = (tileMapBounds.position.x + iii) * Constants::gridSizeF;
+                        edge.startPoint.y = (tileMapBounds.position.y + kkk + 1) * Constants::gridSizeF;
 
 						edge.endPoint.x = edge.startPoint.x + Constants::gridSizeF;
 						edge.endPoint.y = edge.startPoint.y;
@@ -352,7 +352,7 @@ void TileMap::initTileMap()
 		{
 
 			m_tileMap[iii].push_back(new Tile{});
-			m_tileMap[iii][kkk]->m_tile.setPosition(Constants::gridSizeU * kkk, Constants::gridSizeU * iii);
+            m_tileMap[iii][kkk]->m_tile.setPosition(sf::Vector2f(Constants::gridSizeU * kkk, Constants::gridSizeU * iii));
 			if (m_mapVisualization[iii].at(kkk) == '.' || m_mapVisualization[iii].at(kkk) == 'X' || m_mapVisualization[iii].at(kkk) == '*')
 			{
 				m_tileMap[iii][kkk]->m_tile.setFillColor(sf::Color::Transparent);

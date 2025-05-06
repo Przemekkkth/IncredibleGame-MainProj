@@ -8,7 +8,7 @@ void ParkourValleyLevel::initStars()
 	for (int iii{ 0 }; iii < m_starsPositions.size(); ++iii)
 	{
 		m_stars.push_back(sf::RectangleShape{ sf::Vector2f{Constants::gridSizeF, Constants::gridSizeF} });
-		m_stars.back().setPosition(m_starsPositions[iii].x * Constants::gridSizeF, m_starsPositions[iii].y * Constants::gridSizeF);
+        m_stars.back().setPosition(sf::Vector2f(m_starsPositions[iii].x * Constants::gridSizeF, m_starsPositions[iii].y * Constants::gridSizeF));
 		m_stars.back().setTexture(GameResources::starTexture);
 	}
 }
@@ -41,8 +41,8 @@ void ParkourValleyLevel::initBackground(sf::RectangleShape& background, sf::Text
 	}
 
 	background.setSize(sf::Vector2f{
-		static_cast<float>(screenSize.width) * 1.5f,
-		static_cast<float>(screenSize.height) * 1.5f
+        static_cast<float>(screenSize.size.x) * 1.5f,
+        static_cast<float>(screenSize.size.y) * 1.5f
 		}
 	);
 
@@ -77,7 +77,7 @@ void ParkourValleyLevel::playerStarsCollision(const sf::FloatRect& playerBounds)
 {
 	for (int iii{ 0 }; iii < m_stars.size(); ++iii)
 	{
-		if (playerBounds.intersects(m_stars[iii].getGlobalBounds()))
+        if (playerBounds.findIntersection(m_stars[iii].getGlobalBounds()))
 		{
 			m_popUpText->showText("Star Collected", 1900.0f, true);
 			m_stars.erase(m_stars.begin() + iii);

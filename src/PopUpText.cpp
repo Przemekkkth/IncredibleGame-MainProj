@@ -6,13 +6,12 @@ PopUpText::PopUpText(float delay)
 	m_popUpTimer = new Timer{ delay };
 
 	m_textFont = new sf::Font{};
-	if(!m_textFont->loadFromFile("Fonts/PixellettersFull.ttf"))
+    if(!m_textFont->openFromFile("Fonts/PixellettersFull.ttf"))
 	{
 		std::cout << "ERROR::POPUPTEXT::Font could not load\n";
 	}
 
-	m_popUpText = new sf::Text{};
-	m_popUpText->setFont(*m_textFont);
+    m_popUpText = new sf::Text{*m_textFont};
 	m_popUpText->setString("");
 	m_popUpText->setCharacterSize(100.0f);
 	m_isTextShown = false;
@@ -83,9 +82,9 @@ void PopUpText::showText(std::string textToShow, float delay, bool showSmoothly)
 	m_isTextShown = true;
 	m_smoothPooping = showSmoothly;
 
-	m_popUpText->setPosition(
-		Constants::WindowWidth / 2.0f - m_popUpText->getGlobalBounds().width / 2.0f,
-		Constants::WindowHeigth / 2.0f - m_popUpText->getGlobalBounds().height / 2.0f
+    m_popUpText->setPosition(sf::Vector2f(
+        Constants::WindowWidth / 2.0f - m_popUpText->getGlobalBounds().size.x / 2.0f,
+        Constants::WindowHeigth / 2.0f - m_popUpText->getGlobalBounds().size.y / 2.0f)
 	);
 }
 

@@ -10,10 +10,9 @@ void Button::initColors()
 
 //Constructors / Descructors
 Button::Button(sf::Vector2f buttonPosition, std::string buttonText, float buttonTextSize,
-	sf::Color buttonColor)
+    sf::Color buttonColor)
+    : m_buttonText(*GameResources::font)
 {
-
-	m_buttonText.setFont(*GameResources::font);
 	m_buttonText.setPosition(buttonPosition);
 	m_buttonText.setString(buttonText);
 	m_buttonText.setCharacterSize(buttonTextSize);
@@ -30,8 +29,9 @@ Button::~Button()
 //Button logic
 void Button::buttonHover(sf::RenderWindow* window)
 {
-	if (m_buttonText.getGlobalBounds().contains(
-		sf::Mouse::getPosition(*window).x, sf::Mouse::getPosition(*window).y))
+    if (m_buttonText.getGlobalBounds().contains(sf::Vector2f(
+                                                sf::Mouse::getPosition(*window).x, sf::Mouse::getPosition(*window).y))
+        )
 	{
 		m_buttonText.setFillColor(m_buttonHoverColor);
 	}
@@ -44,8 +44,8 @@ void Button::buttonHover(sf::RenderWindow* window)
 bool Button::isButtonClicked(sf::RenderWindow* window)
 {
 
-	if (m_buttonText.getGlobalBounds().contains(
-		sf::Mouse::getPosition(*window).x, sf::Mouse::getPosition(*window).y))
+    if (m_buttonText.getGlobalBounds().contains(sf::Vector2f(
+            sf::Mouse::getPosition(*window).x, sf::Mouse::getPosition(*window).y)))
 	{
 		if (RealeseDetection::mouseRealesed() == true)
 		{
@@ -66,7 +66,7 @@ void Button::drawButton(sf::RenderTarget* target)
 //Modifiers
 void Button::setPosition(const float x, const float y)
 {
-	m_buttonText.setPosition(x, y);
+    m_buttonText.setPosition(sf::Vector2f(x, y));
 }
 
 void Button::setFillColor(sf::Color buttonColor)

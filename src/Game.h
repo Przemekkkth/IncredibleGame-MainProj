@@ -11,7 +11,7 @@ private:
 
 	//Variables
 	sf::RenderWindow* m_window;
-	sf::Event m_event;
+    //sf::Event m_event;
 	PopUpText* m_popUpText;
 
 	//Initialize private functions
