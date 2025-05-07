@@ -4,11 +4,9 @@
 //Initialize private Functions
 void Game::initWindow()
 {
-    m_window = new sf::RenderWindow{ sf::VideoMode{sf::Vector2u{Constants::WindowWidth, Constants::WindowHeigth}} ,
+    m_window = new sf::RenderWindow{ sf::VideoMode{sf::Vector2u{Constants::WindowWidth, Constants::WindowHeigth}},
         "Incredible Game", sf::Style::Close | sf::Style::Titlebar };
 
-
-	
 }
 
 void Game::initStates()
@@ -18,12 +16,14 @@ void Game::initStates()
 
 //Constructors / Descructors
 Game::Game()
+    : m_elapsed(0.0f)
 {
 	m_popUpText = new PopUpText{};
 
 	GameResources::initResources();
 	this->initWindow();
 	this->initStates();
+    m_clock.restart();
 }
 
 Game::~Game()
@@ -39,14 +39,26 @@ void Game::gameLoop()
 {
 	while (m_window->isOpen())
 	{
+        float timestep = 1.0f / FPS;
+        while(m_elapsed >= timestep){
+            deltaTime::timePerFrame = 1.0f / FPS;
+            this->update();
+            m_elapsed -= timestep;
 
-		m_timePerFrame = m_frameClock.restart().asSeconds();
-
-		deltaTime::timePerFrame = m_timePerFrame;
-		this->update();
-		this->render();
-		
+        }
+        this->render();
+        restartClock();
 	}
+}
+
+sf::Time Game::getElapsed()
+{
+    return m_clock.getElapsedTime();
+}
+
+void Game::restartClock()
+{
+    m_elapsed += m_clock.restart().asSeconds();
 }
 
 void Game::update()
@@ -54,7 +66,8 @@ void Game::update()
 	this->updateEvents();
 	if (!m_states.empty())
 	{
-		m_popUpText->update(m_timePerFrame);
+        float dt = 1.0f / FPS;
+        m_popUpText->update(dt);
 		m_states.top()->update(m_window);
 
 		if (m_states.top()->getQuit() == true)
@@ -114,6 +127,7 @@ void Game::updateButtonRealese()
 void Game::showFPS()
 {
 	float deltaTime{ m_timePerFrame };
+    std::cout << "TEST " << std::endl;
     //std::cout << "FPS: " << static_cast<int>(1 / deltaTime) << '\n';
 }
 

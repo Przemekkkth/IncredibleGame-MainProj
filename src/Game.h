@@ -6,6 +6,7 @@
 class Game
 {
 private:
+    static constexpr int FPS = 60;
 	//States stack
 	std::stack<State*> m_states;
 
@@ -17,13 +18,9 @@ private:
 	//Initialize private functions
 	void initWindow();
 	void initStates();
-	
 
-	//Framerate independent
-	sf::Clock m_frameClock;
-	float m_timePerFrame;
-
-
+    sf::Clock m_clock;
+    float m_elapsed;
 public:
 	//Contructors / Descructors
 	Game();
@@ -34,7 +31,6 @@ public:
 	void update();
 	void updateEvents();
 	void updateButtonRealese();
-	void showFPS();
 
 	//Render
 	void render();
@@ -43,5 +39,8 @@ public:
 
 	//Game loop
 	void gameLoop();
+
+    sf::Time getElapsed();
+    void restartClock();
 };
 
