@@ -16,7 +16,7 @@ void MainMenuState::initButtons()
 
 void MainMenuState::initBackground()
 {
-	if (!m_backgroundTexture.loadFromFile("Textures/MainMenuBackground.png"))
+    if (!m_backgroundTexture.loadFromFile("assets/Textures/MainMenuBackground.png"))
 	{
 		std::cout << "ERROR::MAINMENU::Background texture could not load\n";
 	}

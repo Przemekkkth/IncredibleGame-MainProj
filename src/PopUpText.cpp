@@ -6,7 +6,7 @@ PopUpText::PopUpText(float delay)
 	m_popUpTimer = new Timer{ delay };
 
 	m_textFont = new sf::Font{};
-    if(!m_textFont->openFromFile("Fonts/PixellettersFull.ttf"))
+    if(!m_textFont->openFromFile("assets/Fonts/PixellettersFull.ttf"))
 	{
 		std::cout << "ERROR::POPUPTEXT::Font could not load\n";
 	}

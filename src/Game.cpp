@@ -75,6 +75,13 @@ void Game::update()
 
 void Game::updateEvents()
 {
+    while (const std::optional event = m_window->pollEvent())
+    {
+        if (event->is<sf::Event::Closed>())
+        {
+            m_window->close();
+        }
+    }
     // while (m_window->pollEvent(m_event))
     // {
     // 	if (m_event.type == sf::Event::Closed)
@@ -107,7 +114,7 @@ void Game::updateButtonRealese()
 void Game::showFPS()
 {
 	float deltaTime{ m_timePerFrame };
-	std::cout << "FPS: " << static_cast<int>(1 / deltaTime) << '\n';
+    //std::cout << "FPS: " << static_cast<int>(1 / deltaTime) << '\n';
 }
 
 void Game::render()
