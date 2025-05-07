@@ -5,5 +5,5 @@ int main()
 {
     Game game;
     game.gameLoop();
-	return 0;
+    return 0;
 }

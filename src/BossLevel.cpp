@@ -1,5 +1,6 @@
 #include "headers.h"
 #include "BossLevel.h"
+#include <cstdlib>
 
 
 //Constructors / Descructors
@@ -32,13 +33,12 @@ BossLevel::~BossLevel()
 //Public Functions
 void BossLevel::initBackground(sf::RectangleShape& background, sf::Texture& backgroundTexture)
 {
-	sf::VideoMode screenSize{ sf::VideoMode::getDesktopMode() };
+    sf::VideoMode screenSize{ sf::VideoMode::getDesktopMode() };
 
-
-	if (!backgroundTexture.loadFromFile("Textures/bossLevelBackground.jpg"))
-	{
-		std::cout << "ERROR::BossLevel::Background texture could not load\n";
-	}
+    if (!backgroundTexture.loadFromFile("Textures/bossLevelBackground.jpg"))
+    {
+        std::exit(EXIT_FAILURE);
+    }
 
 	background.setSize(sf::Vector2f{
         static_cast<float>(screenSize.size.x) * 1.5f,

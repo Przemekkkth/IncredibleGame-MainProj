@@ -20,84 +20,83 @@ sf::Texture* GameResources::nestTexture = new sf::Texture;
 
 void GameResources::initFont()
 {
-    if (!GameResources::font->openFromFile("Fonts/PixellettersFull.ttf"))
+    if (!GameResources::font->openFromFile("assets/Fonts/PixellettersFull.ttf"))
 	{
-		std::cout << "ERROR::GAMERESOURCES::Font could not load\n";
+        std::exit(EXIT_FAILURE);
 	}
-
 }
 
 void GameResources::initTextures()
 {
 	
-	if (!GameResources::grassTexture->loadFromFile("Textures/grassTexture.jpg"))
+    if (!GameResources::grassTexture->loadFromFile("assets/Textures/grassTexture.jpg"))
 	{
-		std::cout << "GAME RESOURCES:: Grass texture could not load\n";
+        std::exit(EXIT_FAILURE);
 	}
 
-	if (!GameResources::heartTexture->loadFromFile("Textures/heartTexture.png"))
+    if (!GameResources::heartTexture->loadFromFile("assets/Textures/heartTexture.png"))
 	{
-		std::cout << "GAME RESOURCES:: Heart texture could not load\n";
+        std::exit(EXIT_FAILURE);
 	}
 
-	if (!GameResources::halfHeartTexture->loadFromFile("Textures/halfHeartTexture.png"))
+    if (!GameResources::halfHeartTexture->loadFromFile("assets/Textures/halfHeartTexture.png"))
 	{
-		std::cout << "GAME RESOURCES:: Half Heart texture could not load\n";
+        std::exit(EXIT_FAILURE);
 	}
 
-	if (!GameResources::emptyHeartTexture->loadFromFile("Textures/emptyHeartTexture.png"))
+    if (!GameResources::emptyHeartTexture->loadFromFile("assets/Textures/emptyHeartTexture.png"))
 	{
-		std::cout << "GAME RESOURCES:: Empty Heart texture could not load\n";
+        std::exit(EXIT_FAILURE);
 	}
 	
-	if (!GameResources::spikeTexture->loadFromFile("Textures/spikeTexture.png"))
+    if (!GameResources::spikeTexture->loadFromFile("assets/Textures/spikeTexture.png"))
 	{
-		std::cout << "GAME RESOURCES:: Spike texture could not load\n";
+        std::exit(EXIT_FAILURE);
 	}
 
-	if (!GameResources::rifleTexture->loadFromFile("Textures/rifleTexture.png"))
+    if (!GameResources::rifleTexture->loadFromFile("assets/Textures/rifleTexture.png"))
 	{
-		std::cout << "GAME RESOURCES:: Rifle texture could not load\n";
+        std::exit(EXIT_FAILURE);
 	}
 
-	if (!GameResources::ninjaTexture->loadFromFile("Textures/ninjaTexture.png"))
+    if (!GameResources::ninjaTexture->loadFromFile("assets/Textures/ninjaTexture.png"))
 	{
-		std::cout << "GAME RESOURCES:: Ninja texture could not load\n";
+        std::exit(EXIT_FAILURE);
 	}
 
-	if (!GameResources::batTexture->loadFromFile("Textures/batTexture.png"))
+    if (!GameResources::batTexture->loadFromFile("assets/Textures/batTexture.png"))
 	{
-		std::cout << "GAME RESOURCES:: Bat texture could not load\n";
+        std::exit(EXIT_FAILURE);
 	}
 
-	if (!GameResources::playerTexture->loadFromFile("Textures/playerTexture.png"))
+    if (!GameResources::playerTexture->loadFromFile("assets/Textures/playerTexture.png"))
 	{
-		std::cout << "GAME RESOURCES:: Player texture could not load\n";
+        std::exit(EXIT_FAILURE);
 	}
 
-	if (!GameResources::birdTexture->loadFromFile("Textures/birdTexture.png"))
+    if (!GameResources::birdTexture->loadFromFile("assets/Textures/birdTexture.png"))
 	{
-		std::cout << "GAME RESOURCES:: Bird texture could not load\n";
+        std::exit(EXIT_FAILURE);
 	}
 
-	if (!GameResources::stoneTexture->loadFromFile("Textures/stoneTexture.jpg"))
+    if (!GameResources::stoneTexture->loadFromFile("assets/Textures/stoneTexture.jpg"))
 	{
-		std::cout << "GAME RESOURCES:: Stone texture could not load\n";
+        std::exit(EXIT_FAILURE);
 	}
 	
-	if (!GameResources::doorTexture->loadFromFile("Textures/doorTexture.png"))
+    if (!GameResources::doorTexture->loadFromFile("assets/Textures/doorTexture.png"))
 	{
-		std::cout << "GAME RESOURCES:: Door texture could not load\n";
+        std::exit(EXIT_FAILURE);
 	}
 
-	if (!GameResources::starTexture->loadFromFile("Textures/starTexture.png"))
+    if (!GameResources::starTexture->loadFromFile("assets/Textures/starTexture.png"))
 	{
-		std::cout << "GAME RESOURCES:: Star texture could not load\n";
+        std::exit(EXIT_FAILURE);
 	}
 
-	if (!GameResources::nestTexture->loadFromFile("Textures/nestTexture.png"))
+    if (!GameResources::nestTexture->loadFromFile("assets/Textures/nestTexture.png"))
 	{
-		std::cout << "GAME RESOURCES:: Nest texture could not load\n";
+        std::exit(EXIT_FAILURE);
 	}
 }
 

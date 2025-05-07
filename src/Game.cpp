@@ -5,7 +5,7 @@
 void Game::initWindow()
 {
     m_window = new sf::RenderWindow{ sf::VideoMode{sf::Vector2u{Constants::WindowWidth, Constants::WindowHeigth}} ,
-		"Incredible Game", sf::Style::Close | sf::Style::Titlebar };
+        "Incredible Game", sf::Style::Close | sf::Style::Titlebar };
 
 
 	
