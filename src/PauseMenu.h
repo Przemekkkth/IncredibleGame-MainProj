@@ -1,4 +1,9 @@
 #pragma once
+#include <map>
+#include <vector>
+#include <SFML/Graphics/RectangleShape.hpp>
+#include "Button.h"
+
 class PauseMenu
 {
 private:

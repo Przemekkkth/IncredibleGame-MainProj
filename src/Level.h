@@ -2,6 +2,7 @@
 
 #include "TileMap.h"
 #include "Enemy.h"
+#include "PopUpText.h"
 
 class Level
 {

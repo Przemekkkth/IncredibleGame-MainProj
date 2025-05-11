@@ -57,6 +57,24 @@ bool Button::isButtonClicked(sf::RenderWindow* window)
 	return false;
 }
 
+bool Button::isButtonClicked(sf::RenderWindow *window, const std::optional<sf::Event> &event)
+{
+    if (m_buttonText.getGlobalBounds().contains(sf::Vector2f(
+            sf::Mouse::getPosition(*window).x, sf::Mouse::getPosition(*window).y)))
+    {
+        if (const auto* mouseButtonPressed = event->getIf<sf::Event::MouseButtonReleased>())
+        {
+            std::cout << "Released ";
+            if (mouseButtonPressed->button == sf::Mouse::Button::Left)
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 void Button::drawButton(sf::RenderTarget* target)
 {
 

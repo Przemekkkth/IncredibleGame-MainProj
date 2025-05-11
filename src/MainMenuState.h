@@ -27,6 +27,7 @@ public:
 	void updateButtonHover(sf::RenderWindow* window);
 	void updateButtonClickDetection(sf::RenderWindow* window);
 
+
 	//Render
 	void render(sf::RenderTarget* target = nullptr) override;
 	void renderButtons(sf::RenderTarget* target);

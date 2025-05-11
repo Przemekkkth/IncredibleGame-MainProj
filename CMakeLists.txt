@@ -61,7 +61,12 @@ add_executable(main
 
     src/ValleyLevel.h src/ValleyLevel.cpp
 
-    src/main.cpp)
+    src/main.cpp
+    src/SharedContext.h
+    src/StateManager.h src/StateManager.cpp
+    src/BaseState.h
+    src/StateMainMenu.h src/StateMainMenu.cpp
+    src/StateGame.h src/StateGame.cpp )
 
 target_compile_features(main PRIVATE cxx_std_17)
 target_link_libraries(main PRIVATE SFML::Graphics)

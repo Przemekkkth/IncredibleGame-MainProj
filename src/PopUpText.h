@@ -1,8 +1,12 @@
 #pragma once
+#include "Timer.h"
+#include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/Text.hpp>
+
 class PopUpText
 {
 private:
-	Timer* m_popUpTimer;
+    Timer* m_popUpTimer;
 	sf::Font* m_textFont;
 	sf::Text* m_popUpText;
 

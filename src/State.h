@@ -1,4 +1,7 @@
 #pragma once
+#include <stack>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include "PopUpText.h"
 class State
 {
 private:
@@ -33,6 +36,7 @@ public:
 	virtual void update(sf::RenderWindow* window) = 0;
 	virtual void render(sf::RenderTarget* target = nullptr) = 0;
 	virtual void updateKeyTime(const float& timePerFrame);
+    virtual void handlePlayerInput(const std::optional<sf::Event> &event);
 
 	//Regular functions
 	void endState();

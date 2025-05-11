@@ -35,9 +35,9 @@ void ParkourValleyLevel::initBackground(sf::RectangleShape& background, sf::Text
 	sf::VideoMode screenSize{ sf::VideoMode::getDesktopMode() };
 
 
-	if (!backgroundTexture.loadFromFile("Textures/GameStateBackground.jpg"))
-	{
-		std::cout << "ERROR::ParkourValleyLevel::Background texture could not load\n";
+    if (!backgroundTexture.loadFromFile("assets/Textures/GameStateBackground.jpg"))
+    {
+        std::exit(EXIT_FAILURE);
 	}
 
 	background.setSize(sf::Vector2f{

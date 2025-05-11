@@ -29,9 +29,9 @@ void ValleyLevel::initBackground(sf::RectangleShape& background, sf::Texture& ba
 	sf::VideoMode screenSize{ sf::VideoMode::getDesktopMode() };
 
 
-	if (!backgroundTexture.loadFromFile("Textures/GameStateBackground.jpg"))
+    if (!backgroundTexture.loadFromFile("assets/Textures/GameStateBackground.jpg"))
 	{
-		std::cout << "ERROR::ValleyLevel::Background texture could not load\n";
+        std::exit(EXIT_FAILURE);
 	}
 
 	background.setSize(sf::Vector2f{

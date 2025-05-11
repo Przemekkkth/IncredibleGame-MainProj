@@ -1,29 +1,17 @@
 #include "headers.h"
 #include "Game.h"
 
-//Initialize private Functions
-void Game::initWindow()
-{
-    m_window = new sf::RenderWindow{ sf::VideoMode{sf::Vector2u{Constants::WindowWidth, Constants::WindowHeigth}},
-        "Incredible Game", sf::Style::Close | sf::Style::Titlebar };
-
-}
-
-void Game::initStates()
-{
-	m_states.push(new MainMenuState{ &m_states, m_window, m_popUpText});
-}
-
-//Constructors / Descructors
 Game::Game()
-    : m_elapsed(0.0f)
+    : m_elapsed(0.0f), m_stateManager(&m_sharedContext)
 {
 	m_popUpText = new PopUpText{};
-
 	GameResources::initResources();
+
 	this->initWindow();
 	this->initStates();
     m_clock.restart();
+    m_sharedContext.m_window = m_window;
+    m_stateManager.SwitchTo(StateType::MainMenu);
 }
 
 Game::~Game()
@@ -39,9 +27,12 @@ void Game::gameLoop()
 {
 	while (m_window->isOpen())
 	{
+        handleEvents();
+
         float timestep = 1.0f / FPS;
         while(m_elapsed >= timestep){
             deltaTime::timePerFrame = 1.0f / FPS;
+            m_stateManager.Update(sf::seconds(timestep));
             this->update();
             m_elapsed -= timestep;
 
@@ -63,7 +54,7 @@ void Game::restartClock()
 
 void Game::update()
 {
-	this->updateEvents();
+
 	if (!m_states.empty())
 	{
         float dt = 1.0f / FPS;
@@ -72,10 +63,10 @@ void Game::update()
 
 		if (m_states.top()->getQuit() == true)
 		{
-
 			delete m_states.top();
 			m_states.pop();
 		}
+
 	}
 	else
 	{
@@ -83,10 +74,9 @@ void Game::update()
 	}
 
 	this->realeseBoolsReset();
-	this->showFPS();
 }
 
-void Game::updateEvents()
+void Game::handleEvents()
 {
     while (const std::optional event = m_window->pollEvent())
     {
@@ -94,6 +84,8 @@ void Game::updateEvents()
         {
             m_window->close();
         }
+        m_states.top()->handlePlayerInput(event);
+        m_stateManager.HandlePlayerInput(event);
     }
     // while (m_window->pollEvent(m_event))
     // {
@@ -124,24 +116,18 @@ void Game::updateButtonRealese()
     // }
 }
 
-void Game::showFPS()
-{
-	float deltaTime{ m_timePerFrame };
-    std::cout << "TEST " << std::endl;
-    //std::cout << "FPS: " << static_cast<int>(1 / deltaTime) << '\n';
-}
-
 void Game::render()
 {
 	m_window->clear();
 
-	if (!m_states.empty())
-	{
-		m_states.top()->render(m_window);
-	}
+    // if (!m_states.empty())
+    // {
+    // 	m_states.top()->render(m_window);
+    // }
 
-	m_popUpText->render(m_window);
+    // m_popUpText->render(m_window);
 
+    m_stateManager.Draw();
 	m_window->display();
 }
 
@@ -150,4 +136,15 @@ void Game::realeseBoolsReset()
 	RealeseDetection::Escape = false;
 	RealeseDetection::mouseLeftButton = false;
 	RealeseDetection::W = false;
+}
+
+void Game::initWindow()
+{
+    m_window = new sf::RenderWindow{ sf::VideoMode{sf::Vector2u{Constants::WindowWidth, Constants::WindowHeigth}},
+                                    "Incredible Game", sf::Style::Close | sf::Style::Titlebar };
+}
+
+void Game::initStates()
+{
+    m_states.push(new MainMenuState{ &m_states, m_window, m_popUpText});
 }

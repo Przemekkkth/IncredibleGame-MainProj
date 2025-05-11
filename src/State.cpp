@@ -22,7 +22,12 @@ void State::updateKeyTime(const float& timePerFrame)
 	if (m_keyTime < m_keyTimeMax + 1.0f)
 	{
 		m_keyTime += 30.0f * timePerFrame;
-	}
+    }
+}
+
+void State::handlePlayerInput(const std::optional<sf::Event> &event)
+{
+
 }
 
 void State::endState()

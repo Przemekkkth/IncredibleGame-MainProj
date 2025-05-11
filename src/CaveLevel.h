@@ -2,6 +2,8 @@
 
 #include "Level.h"
 #include "RangeWeapon.h"
+#include "GameResources.h"
+#include "AuxiliaryVariables.h"
 
 class CaveLevel : public Level
 {
